@@ -1,10 +1,13 @@
+require 'library/ruby-unicode-0.0.1/lib/unicode.rb'
 require 'graph.rb'
 require 'hanzi.rb'
 
+$KCODE = 'UTF-8'
 $showVectors = false
 
 class Flowhan < Processing::App
   def setup
+    size 800, 600, JAVA2D
     $center = PVector.new(width/2, height/2)
     @avatar = load_image("http://www.gravatar.com/avatar/2db5bef022028e9db45e8cbaebbf042f.png")
     $font_cn = create_font("AR PL UKai CN", 20);
@@ -12,7 +15,9 @@ class Flowhan < Processing::App
     #@g = get_example_graph();
     #@g = get_random_graph(20,0.1);
     #@g.add_node(Hanzi.new(PVector.new(20,20)));
-    @g = get_hanzi_graph
+    @g = get_hanzi_graph("新") #好新
+    
+    frameRate(30)
   end
    
   def draw

@@ -1,0 +1,54 @@
+= Unicode support for Ruby
+
+This Unicode module provides Unicode::String and Unicode::Character
+implemented by pure ruby based on iconv. Any plain ruby string can be
+converted into Unicode::String just using ::String#to_u, that is you
+can simply write like this: "string".to_u. If not given any encoding
+information to the methods, then they will look up $KCODE. If $KCODE was
+not set propely or types are misused, then duck quacks loud. :-)
+
+This was sprung out as a proof of concept that ruby can handle first
+class unicode object very well. It might be probably too slow to use. I
+have a plan to reimplement the same interfaces with ICU extension someday.
+
+
+== Installation
+
+I will not support gem installation until reach to level of maturity.
+
+  $ rake test
+  # rake install
+
+or you can manually build local gem and install it.
+
+  $ rake gem
+  # gem install pkg/ruby-unicode-x.x.x.gem
+
+
+== How to Use
+
+  require 'unicode'
+
+  $KCODE = 'UTF-8'   # only used when encoding is not specified.
+
+  u = "\352\260\200\353\202\230\353\213\244".to_u
+  u.length           #=> 3
+  u.to_a             #=> [44032, 45208, 45796], array of codepoint
+  u.inspect          #=> <U+AC00><U+B098><U+B2E4>
+  u.to_s             #=> "\352\260\200\353\202\230\353\213\244"
+  u.encoding = "EUC-KR"
+  u.to_s             #=> "\260\241\263\252\264\331"
+  u.to_s("UTF-8")    #=> "\352\260\200\353\202\230\353\213\244"
+  u.length   	     #=> 3
+  u = "\260\241\263\252\264\331".to_u("EUC-KR")
+  u.inspect          #=> <U+AC00><U+B098><U+B2E4>
+
+
+== License
+
+Same as Ruby's license.
+
+
+== Author
+
+Gyoung-Yoon Noh <nohmad@gmail.com>
